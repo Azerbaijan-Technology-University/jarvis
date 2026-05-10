@@ -1,0 +1,16 @@
+# J.A.R.V.I.S v3.0 — Python asılılıqları
+# pip install -r requirements.txt
+
+elevenlabs>=1.0.0
+SpeechRecognition>=3.10.0
+pygame>=2.5.0
+requests>=2.31.0
+python-dotenv>=1.0.0
+
+# Mikrofon üçün (Linux/Mac)
+# PyAudio>=0.2.13
+# pip install pyaudio  (Windows-da əvvəlcə portaudio lazımdır)
+
+# Offline AI üçün Ollama ayrıca qurulur:
+# https://ollama.ai/download
+# ollama pull llama3
