@@ -1,7 +1,7 @@
 """
 jarvis/core/audio.py
 ─────────────────────
-Bütün audio məntiqi:
+ Bütün audio məntiqi:
   - speak()          → ElevenLabs TTS
   - ListenThread     → mikrofondan real-time dinləmə
 """
