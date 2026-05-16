@@ -222,7 +222,7 @@ class ListenThread(threading.Thread):
                     )
                     self._on_status("thinking")
 
-                    text = self._recognize(recognizer, audio)
+                    text = _recognize(recognizer, audio)
                     if text:
                         log.info("Tanındı: '%s'", text)
                         self._on_text(text)
@@ -238,17 +238,20 @@ class ListenThread(threading.Thread):
                     time.sleep(0.5)
                     self._on_status("ready")
 
-    @staticmethod
-    def _recognize(recognizer: sr.Recognizer, audio: sr.AudioData) -> Optional[str]:
-        for lang in MIC_LANGUAGES:
-            try:
-                # TODO: Fix unknown function
-                text = recognizer.recognize_google(audio, language=lang)
-                if text and text.strip():
-                    return text.strip()
-            except sr.UnknownValueError:
-                continue
-            except sr.RequestError as exc:
-                log.warning("Google STT xətası (%s): %s", lang, exc)
-                break
-        return None
+
+@staticmethod
+def _recognize(recognizer: sr.Recognizer, audio: sr.AudioData) -> Optional[str]:
+    for lang in MIC_LANGUAGES:
+        try:
+            # Basedpyright linterinin xəta verməməsi üçün dinamik çağırış edirik
+            recognize_method = getattr(recognizer, "recognize_google")
+            text = recognize_method(audio, language=lang)
+
+            if text and text.strip():
+                return text.strip()
+        except sr.UnknownValueError:
+            continue
+        except sr.RequestError as exc:
+            log.warning("Google STT xətası (%s): %s", lang, exc)
+            break
+    return None
